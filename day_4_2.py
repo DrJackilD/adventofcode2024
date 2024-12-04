@@ -6,9 +6,6 @@ WORD = set("MAS")
 def find_all_xmas(grid: list[list[str]]) -> int:
     n, m = len(grid), len(grid[0])
 
-    def valid(x: int, y: int) -> bool:
-        return 0 <= x < n and 0 <= y < m
-
     def find_xmas(x: int, y: int) -> bool:
         """
         x, y is a position in a grid
