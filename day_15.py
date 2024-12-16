@@ -112,7 +112,7 @@ def gps_total(grid: Grid) -> int:
     return ans
 
 
-def run_robot(grid: Grid, start: XYPair, commands: list[str], v2: bool = False):
+def run_robot(grid: Grid, start: XYPair, commands: list[str]):
     while commands:
         cmd = commands.pop()
         start = move(grid, start[0], start[1], cmd)
@@ -142,4 +142,4 @@ if __name__ == "__main__":
     for i, row in enumerate(grid):
         if ROBOT in row:
             start_pos = (i, row.index(ROBOT))
-    print(run_robot(grid, start_pos, commands, v2=True))  # part 2
+    print(run_robot(grid, start_pos, commands))  # part 2
