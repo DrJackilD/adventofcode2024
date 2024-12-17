@@ -29,9 +29,9 @@ def solve(maze: Maze) -> tuple[set[XYPair], int]:
         x, y = path[-1]
 
         if (x, y) == (ex, ey):
+            min_cost = min(min_cost, cost)
             if cost <= min_cost:
                 min_path |= set(path)
-            min_cost = min(min_cost, cost)
             continue
 
         for nx, ny, new_cost, ndx, ndy in (
