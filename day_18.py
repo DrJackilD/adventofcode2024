@@ -75,19 +75,23 @@ def no_longer_possible_after(
         for right_edge_row in range(size - 1, -1, -1):
             if ds.find(right_edge_row * size + size - 1) == ds.find(x * size + y):
                 right_connection = right_edge_row, size - 1
+                break
         if not right_connection:
             for top_edge_col in range(size - 1, -1, -1):
                 if ds.find(0 + top_edge_col) == ds.find(x * size + y):
                     right_connection = 0, top_edge_col
+                    break
 
         left_connection = None
         for bottom_edge_col in range(size - 1, -1, -1):
             if ds.find((size - 1) * size + bottom_edge_col) == ds.find(x * size + y):
                 left_connection = size - 1, bottom_edge_col
+                break
         if not left_connection:
             for left_edge_row in range(size - 1, -1, -1):
                 if ds.find(left_edge_row * size) == ds.find(x * size + y):
                     left_connection = left_edge_row, 0
+                    break
 
         if right_connection and left_connection:
             return x, y
