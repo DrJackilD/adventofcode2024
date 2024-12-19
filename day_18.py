@@ -63,35 +63,33 @@ def no_longer_possible_after(
             if 0 <= nx < size and 0 <= ny < size and grid[nx][ny] == -1:
                 ds.union(x * size + y, nx * size + ny)
 
+    right_top_bytes: set[int] = set()
+    left_bottom_bytes: set[int] = set()
     while falling:
         x, y = falling.pop()
         grid[x][y] = -1
+
+        if x == 0 or y == size - 1:
+            right_top_bytes.add(x * size + y)
+
+        if y == 0 or x == size - 1:
+            left_bottom_bytes.add(x * size + y)
 
         for nx, ny in get_connections(x, y):
             if 0 <= nx < size and 0 <= ny < size and grid[nx][ny] == -1:
                 ds.union(x * size + y, nx * size + ny)
 
         right_connection = None
-        for right_edge_row in range(size - 1, -1, -1):
-            if ds.find(right_edge_row * size + size - 1) == ds.find(x * size + y):
-                right_connection = right_edge_row, size - 1
+        for rt in right_top_bytes:
+            if ds.find(rt) == ds.find(x * size + y):
+                right_connection = rt
                 break
-        if not right_connection:
-            for top_edge_col in range(size - 1, -1, -1):
-                if ds.find(0 + top_edge_col) == ds.find(x * size + y):
-                    right_connection = 0, top_edge_col
-                    break
 
         left_connection = None
-        for bottom_edge_col in range(size - 1, -1, -1):
-            if ds.find((size - 1) * size + bottom_edge_col) == ds.find(x * size + y):
-                left_connection = size - 1, bottom_edge_col
+        for lb in left_bottom_bytes:
+            if ds.find(lb) == ds.find(x * size + y):
+                left_connection = lb
                 break
-        if not left_connection:
-            for left_edge_row in range(size - 1, -1, -1):
-                if ds.find(left_edge_row * size) == ds.find(x * size + y):
-                    left_connection = left_edge_row, 0
-                    break
 
         if right_connection and left_connection:
             return x, y
@@ -154,4 +152,4 @@ if __name__ == "__main__":
     print(find_path(size, coordinates[:], forward_to))  # part 1
     print(
         tuple(reversed(no_longer_possible_after(size, coordinates, forward_to)))
-    )  # part 2, for some reason they using the reversed coordinates, sick bastards
+    )  # part 2, for some reason they using the reversed coordinates -_-
