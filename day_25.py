@@ -6,7 +6,7 @@ WIDTH = 5
 HEIGHT = 7
 
 
-def is_fit(key: list[int], lock: list[int]) -> bool:
+def is_fit(lock: list[int], key: list[int]) -> bool:
     for col in range(WIDTH):
         if key[col] + lock[col] > HEIGHT:
             return False
