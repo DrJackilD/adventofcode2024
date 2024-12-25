@@ -1,3 +1,5 @@
+from itertools import product
+
 INPUT_FILE = "input_25.txt"
 
 WIDTH = 5
@@ -11,43 +13,22 @@ def is_fit(key: list[int], lock: list[int]) -> bool:
     return True
 
 
-def get_unique_pairs(locks: list[list[int]], keys: list[list[int]]) -> int:
-    unique_pairs = set()
-    for lock in locks:
-        for i, key in enumerate(keys):
-            if is_fit(key, lock):
-                unique_pairs.add((tuple(key), tuple(lock)))
-    return len(unique_pairs)
-
-
 def main():
     with open(INPUT_FILE, "r") as f:
         locks = []
         keys = []
-        curr = []
-        for line in f:
-            line = line.strip()
-            if not line:
-                item = []
-                for col in zip(*curr):
-                    item.append(col.count("#"))
-                if curr[0][0] == "#":
-                    locks.append(item)
-                else:
-                    keys.append(item)
-                curr = []
-            else:
-                curr.append(list(line))
-        if curr:
+
+        for block in f.read().split("\n\n"):
+            block = [line.strip() for line in block.splitlines()]
             item = []
-            for col in zip(*curr):
+            for col in zip(*block):
                 item.append(col.count("#"))
-            if curr[0][0] == "#":
+            if block[0][0] == "#":
                 locks.append(item)
             else:
                 keys.append(item)
 
-    print(get_unique_pairs(locks, keys))  # part 1
+    print(sum(is_fit(*comb) for comb in product(locks, keys)))  # part 1
 
 
 if __name__ == "__main__":
